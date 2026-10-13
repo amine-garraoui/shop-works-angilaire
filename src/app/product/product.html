@@ -1,0 +1,65 @@
+<div class="product-container">
+    <div class="header-section">
+        <h1 class="title">🛍️ Notre Catalogue</h1>
+        <div class="search-wrapper">
+            <input 
+                class="search-input" 
+                type="text" 
+                placeholder="🔍 Rechercher un produit..." 
+                [(ngModel)]="searchProduct">
+        </div>
+    </div>
+
+    <div class="products-grid">
+        @for (product of searchByName(); track $index) {
+            <div class="product-card" [class.out-of-stock]="product.quantity === 0">
+                <div class="card-header">
+                    <span class="product-id">#{{ product.id }}</span>
+                    <span class="stock-badge" [class.low-stock]="product.quantity <= 3" [class.no-stock]="product.quantity === 0">
+                        {{ product.quantity === 0 ? 'Rupture' : product.quantity + ' en stock' }}
+                    </span>
+                </div>
+                
+                <div class="card-body">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <div class="price-tag">{{ product.price }} DT</div>
+                    
+                    <div class="likes-section">
+                        <span class="heart-icon">❤️</span>
+                        <span class="likes-count">{{ product.likes }}</span>
+                    </div>
+                </div>
+                
+                <div class="card-actions">
+                    <button 
+                        (click)="like(product.id)" 
+                        class="btn-like"
+                        title="J'aime">
+                        <span class="btn-icon">❤️</span>
+                        <span class="btn-text">J'aime</span>
+                    </button>
+                    <button 
+                        (click)="buy(product.id)" 
+                        class="btn-buy" 
+                        [disabled]="product.quantity === 0"
+                        [class.disabled]="product.quantity === 0"
+                        title="Acheter">
+                        <span class="btn-icon">🛒</span>
+                        <span class="btn-text">{{ product.quantity === 0 ? 'Indisponible' : 'Acheter' }}</span>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="footer-actions">
+        <button (click)="save()" class="btn-save">
+            <span class="btn-icon">💾</span>
+            <span class="btn-text">Sauvegarder</span>
+        </button>
+    </div>
+
+    <div class="color-demo" [style.backgroundColor]="color()">
+        <span>Démonstration Property Binding</span>
+    </div>
+</div>

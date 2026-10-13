@@ -1,0 +1,36 @@
+<p>login works!</p>
+
+
+<h1>FormControl</h1>
+<label>Login</label>
+<input type="text" [formControl]="login">
+
+<label> Password </label>
+<input type="password" [formControl]="pwd">
+
+<button [disabled]="login.invalid || pwd.invalid" (click)="save()">save</button>
+
+
+<h1>formGroupe</h1>
+
+<form [formGroup]="loginForm">
+  <label>Name</label>
+  <input type="text" formControlName="name" class="form-control" placeholder="Name">
+  @if (getName()?.invalid && getName()?.touched) {
+    <div class="alert alert-danger">
+        @if (getName()?.errors?.['required']) {
+      <p>Le name est obligatoire</p>
+        }
+        @if (getName()?.errors?.['minlength']) {
+      <p>Le name est de 3 caracteres minimum</p>
+        }
+    </div>
+  }
+  <label>Email</label>
+  <input type="email" formControlName="email" class="form-control" placeholder="Email">
+  <label>Adresse</label>
+  <input type="text" formControlName="adresse" class="form-control" placeholder="Adresse">
+  <label>Telephone</label>
+  <input type="text" formControlName="telephone" class="form-control" placeholder="Telephone">
+  <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">save</button>
+</form>

@@ -1,0 +1,80 @@
+@if (event) {
+  <div class="detail-container">
+    <div class="detail-header">
+      <button routerLink="/events" class="back-btn">
+        <span class="back-icon">←</span>
+        Retour aux événements
+      </button>
+    </div>
+
+    <div class="detail-content">
+      <div class="event-image">
+        <div class="image-placeholder">
+          <span class="placeholder-icon">📅</span>
+        </div>
+      </div>
+
+      <div class="event-info">
+        <div class="event-badge">Événement #{{ event.id }}</div>
+        <h1 class="event-title">{{ event.name }}</h1>
+        <p class="event-description">{{ event.description }}</p>
+
+        <div class="event-details-grid">
+          <div class="detail-item">
+            <span class="detail-icon">📍</span>
+            <div class="detail-text">
+              <span class="detail-label">Lieu</span>
+              <span class="detail-value">{{ event.location }}</span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-icon">💰</span>
+            <div class="detail-text">
+              <span class="detail-label">Prix</span>
+              <span class="detail-value">{{ event.price }} DT</span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-icon">🎫</span>
+            <div class="detail-text">
+              <span class="detail-label">Places disponibles</span>
+              <span class="detail-value">
+                <span class="places-badge" [class.low-places]="event.nbPlaces <= 5" [class.no-places]="event.nbPlaces === 0">
+                  {{ event.nbPlaces }}
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-icon">📆</span>
+            <div class="detail-text">
+              <span class="detail-label">Date</span>
+              <span class="detail-value">{{ event.date }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn-reserve" [disabled]="event.nbPlaces === 0">
+            <span class="btn-icon">🎫</span>
+            Réserver ma place
+          </button>
+          <button class="btn-share">
+            <span class="btn-icon">📤</span>
+            Partager
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="not-found-message">
+    <span class="not-found-icon">❌</span>
+    <h2>Événement non trouvé</h2>
+    <p>L'événement que vous recherchez n'existe pas.</p>
+    <button (click)="backToEvent()" class="btn-back">Retour aux événements</button>
+  </div>
+}

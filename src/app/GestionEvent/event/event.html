@@ -1,0 +1,146 @@
+<main class="event-container">
+  <header class="header-section">
+    <p class="eyebrow">SHOPSSA · AGENDA</p>
+    <h1 class="title">Nos événements</h1>
+    <p class="subtitle">Découvrez les prochains événements et réservez votre place.</p>
+    <button type="button" class="btn-add" (click)="openAddForm()">
+      <span class="btn-icon" aria-hidden="true">＋</span>
+      Ajouter un événement
+    </button>
+  </header>
+
+  @if (notice()) {
+    <p class="success-notice" role="status">{{ notice() }}</p>
+  }
+
+  <section class="table-wrapper" aria-label="Liste des événements">
+    <table class="events-table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Description</th>
+          <th scope="col">Lieu</th>
+          <th scope="col">Prix</th>
+          <th scope="col">Places</th>
+          <th scope="col">Date</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (event of events(); track event.id) {
+          <tr>
+            <td class="event-id">#{{ event.id }}</td>
+            <td class="event-name">{{ event.name }}</td>
+            <td class="event-description">{{ event.description }}</td>
+            <td class="event-location">{{ event.location }}</td>
+            <td class="event-price">{{ event.price }} DT</td>
+            <td>
+              <span class="places-badge" [class.low-places]="event.nbPlaces <= 5" [class.no-places]="event.nbPlaces === 0">
+                {{ event.nbPlaces }} places
+              </span>
+            </td>
+            <td class="event-date">{{ event.date }}</td>
+            <td class="event-action">
+              <button type="button" class="btn-detail" [routerLink]="['/events/detail', event.id]">Détails</button>
+              <button type="button" class="btn-reserve" (click)="reserve(event.id)" [disabled]="event.nbPlaces === 0">
+                Réserver
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td class="empty-state" colspan="8">Aucun événement pour le moment.</td></tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  @if (showAddForm()) {
+    <div class="modal-overlay" (click)="closeAddForm()">
+      <section
+        class="modal-content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="event-form-title"
+        (click)="$event.stopPropagation()"
+        (keydown.escape)="closeAddForm()"
+      >
+        <header class="modal-header">
+          <div>
+            <p class="eyebrow">NOUVELLE ACTIVITÉ</p>
+            <h2 id="event-form-title">Ajouter un événement</h2>
+          </div>
+          <button type="button" class="btn-close" aria-label="Fermer le formulaire" (click)="closeAddForm()">×</button>
+        </header>
+
+        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form" novalidate>
+          <div class="form-group">
+            <label for="event-name">Nom de l’événement <span aria-hidden="true">*</span></label>
+            <input id="event-name" type="text" formControlName="name" maxlength="80" autocomplete="off" [attr.aria-invalid]="name.invalid && name.touched" aria-describedby="event-name-error">
+            <div id="event-name-error" class="field-error" aria-live="polite">
+              @if (name.touched && name.errors?.['required']) { <span>Le nom est obligatoire.</span> }
+              @if (name.touched && name.errors?.['minlength']) { <span>Le nom doit contenir au moins 3 caractères.</span> }
+              @if (name.touched && name.errors?.['maxlength']) { <span>Le nom ne peut pas dépasser 80 caractères.</span> }
+            </div>
+            <small class="field-hint">{{ nameLength() }}/80 caractères</small>
+          </div>
+
+          <div class="form-group">
+            <label for="event-description">Description <span aria-hidden="true">*</span></label>
+            <textarea id="event-description" formControlName="description" maxlength="300" rows="3" [attr.aria-invalid]="description.invalid && description.touched" aria-describedby="event-description-error"></textarea>
+            <div id="event-description-error" class="field-error" aria-live="polite">
+              @if (description.touched && description.errors?.['required']) { <span>La description est obligatoire.</span> }
+              @if (description.touched && description.errors?.['minlength']) { <span>Ajoutez au moins 10 caractères.</span> }
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="event-location">Lieu <span aria-hidden="true">*</span></label>
+              <input id="event-location" type="text" formControlName="location" maxlength="100" [attr.aria-invalid]="location.invalid && location.touched" aria-describedby="event-location-error">
+              <div id="event-location-error" class="field-error" aria-live="polite">
+                @if (location.touched && location.errors?.['required']) { <span>Le lieu est obligatoire.</span> }
+                @if (location.touched && location.errors?.['minlength']) { <span>Le lieu doit contenir au moins 2 caractères.</span> }
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="event-date">Date <span aria-hidden="true">*</span></label>
+              <input id="event-date" type="date" formControlName="date" [attr.aria-invalid]="date.invalid && date.touched" aria-describedby="event-date-error">
+              <div id="event-date-error" class="field-error" aria-live="polite">
+                @if (date.touched && date.errors?.['required']) { <span>La date est obligatoire.</span> }
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="event-price">Prix (DT) <span aria-hidden="true">*</span></label>
+              <input id="event-price" type="number" formControlName="price" min="0" step="0.01" [attr.aria-invalid]="price.invalid && price.touched" aria-describedby="event-price-error">
+              <div id="event-price-error" class="field-error" aria-live="polite">
+                @if (price.touched && price.errors?.['required']) { <span>Le prix est obligatoire.</span> }
+                @if (price.touched && price.errors?.['min']) { <span>Le prix doit être positif ou égal à zéro.</span> }
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="event-places">Nombre de places <span aria-hidden="true">*</span></label>
+              <input id="event-places" type="number" formControlName="nbPlaces" min="1" step="1" [attr.aria-invalid]="nbPlaces.invalid && nbPlaces.touched" aria-describedby="event-places-error">
+              <div id="event-places-error" class="field-error" aria-live="polite">
+                @if (nbPlaces.touched && nbPlaces.errors?.['required']) { <span>Le nombre de places est obligatoire.</span> }
+                @if (nbPlaces.touched && nbPlaces.errors?.['min']) { <span>Il faut prévoir au moins une place.</span> }
+              </div>
+            </div>
+          </div>
+
+          <p class="form-status" [class.form-status-valid]="isFormValid()" role="status">
+            {{ isFormValid() ? 'Formulaire valide : prêt à être envoyé.' : 'Complétez les champs obligatoires pour activer l’ajout.' }}
+          </p>
+
+          <footer class="form-actions">
+            <button type="button" class="btn-cancel" (click)="closeAddForm()">Annuler</button>
+            <button type="submit" class="btn-submit" [disabled]="!isFormValid()">Ajouter l’événement</button>
+          </footer>
+        </form>
+      </section>
+    </div>
+  }
+</main>
