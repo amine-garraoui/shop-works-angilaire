@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -11,13 +11,20 @@ import { EventService } from '../../services/event-service';
   templateUrl: './event.html',
   styleUrl: './event.css',
 })
-export class Event {
+export class Event implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly eventService = inject(EventService);
 
   readonly events = this.eventService.events;
   readonly showAddForm = signal(false);
   readonly notice = signal('');
+  readonly loadError = signal('');
+
+  ngOnInit(): void {
+    this.eventService.getEvents().subscribe({
+      error: () => this.loadError.set('Impossible de charger les événements. Vérifiez que le serveur est démarré.'),
+    });
+  }
 
   // Le FormGroup et ses validateurs sont définis dans le composant (Reactive Forms).
   readonly eventForm = this.formBuilder.nonNullable.group({

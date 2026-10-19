@@ -1,189 +1,153 @@
 .modern-navbar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 0;
   z-index: 1000;
-  padding: 0.8rem 0;
+  padding: 0.75rem 0;
+  background: #fff;
+  border-bottom: 1px solid #d8dee4;
 }
 
 .navbar-container {
-  max-width: 1400px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1.25rem;
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.45rem;
   text-decoration: none;
 }
 
 .brand-icon {
-  font-size: 2rem;
-  animation: bounce 2s infinite;
+  font-size: 1.35rem;
 }
 
 .brand-text {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  color: #24292f;
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 
-.navbar-menu {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex: 1;
-  justify-content: center;
-}
-
-.nav-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.8rem 1.5rem;
-  color: rgba(255, 255, 255, 0.8);
-  text-decoration: none;
-  border-radius: 12px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.nav-link:hover {
-  color: white;
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
-}
-
-.nav-link.active {
-  color: white;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.nav-icon {
-  font-size: 1.3rem;
-}
-
+.navbar-menu,
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.35rem;
+}
+
+.nav-link {
+  padding: 0.55rem 0.7rem;
+  border-radius: 4px;
+  color: #57606a;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: #f3f4f6;
+  color: #24292f;
+}
+
+.nav-icon {
+  margin-right: 0.2rem;
+  font-size: 0.95rem;
 }
 
 .search-box {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 50px;
-  padding: 0.5rem 1rem;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-}
-
-.search-box:focus-within {
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 0.2rem 0.45rem;
+  border: 1px solid #d0d7de;
+  border-radius: 4px;
 }
 
 .search-input {
+  width: 150px;
+  padding: 0.35rem;
+  border: 0;
   background: transparent;
-  border: none;
+  color: #24292f;
+}
+
+.search-input:focus {
   outline: none;
-  color: white;
-  font-size: 1rem;
-  padding: 0.5rem;
-  width: 200px;
 }
 
 .search-input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: #6e7781;
+}
+
+.search-btn,
+.cart-btn {
+  border: 0;
+  background: transparent;
+  color: #24292f;
+  cursor: pointer;
 }
 
 .search-btn {
-  background: transparent;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: white;
-  transition: transform 0.3s ease;
-}
-
-.search-btn:hover {
-  transform: scale(1.2);
+  padding: 0.25rem;
 }
 
 .cart-btn {
-  position: relative;
-  background: rgba(255, 255, 255, 0.15);
-  border: none;
-  padding: 0.8rem 1.2rem;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.cart-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: scale(1.05);
-}
-
-.cart-icon {
-  font-size: 1.5rem;
+  gap: 0.4rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #d0d7de;
+  border-radius: 4px;
 }
 
 .cart-count {
-  background: #ff6b6b;
-  color: white;
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 0.2rem 0.6rem;
-  border-radius: 50%;
-  min-width: 24px;
+  min-width: 1.25rem;
+  padding: 0.05rem 0.3rem;
+  border-radius: 10px;
+  background: #f0f1f2;
+  font-size: 0.8rem;
   text-align: center;
 }
 
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 850px) {
   .navbar-container {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 0 1rem;
-  }
-  
-  .navbar-menu {
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
+  .navbar-brand {
+    margin-right: auto;
+  }
+
+  .navbar-menu {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .navbar-container {
+    padding: 0 0.75rem;
+    gap: 0.6rem;
+  }
+
   .nav-link {
-    padding: 0.6rem 1rem;
+    padding: 0.45rem;
     font-size: 0.9rem;
   }
-  
+
   .search-input {
-    width: 150px;
+    width: 110px;
   }
-  
-  .brand-text {
-    font-size: 1.5rem;
+
+  .nav-icon {
+    display: none;
   }
 }
